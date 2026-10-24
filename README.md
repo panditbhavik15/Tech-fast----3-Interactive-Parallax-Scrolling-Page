@@ -457,7 +457,6 @@ Not verified, and worth checking by eye before submitting:
   default for an accessibility preference — but it does mean a returning reduced-motion visitor has to
   opt in twice.
 - No lint, no type-check, no tests, and no CI.
-- The repository's `LICENSE` file is an empty placeholder (see [Credit & licence](#credit--licence)).
 - Voyager 1's quoted distance will drift out of date; the card is a snapshot, not a live figure.
 - No audio, and no reduced-motion "play everything once" mode — both were left out deliberately rather
   than shipped half-finished.
@@ -469,10 +468,21 @@ Not verified, and worth checking by eye before submitting:
 Built for the *Interactive Parallax Scrolling Page* challenge. Not affiliated with or endorsed by any
 institution, and no claim is made about awards, placement or users.
 
-All geometry, artwork, gradients and copy were generated for this project and live in the repository.
-Nothing is hotlinked: the only third-party code is React, GSAP, ScrollTrigger and Lucide icons, all
-bundled from npm. Fonts are the operating system's own.
+Released under the **MIT licence** — see [`LICENSE`](./LICENSE). The copyright line uses the GitHub
+handle; edit it to your legal name if you would rather it read that way.
 
-The `LICENSE` file in this repository is currently **empty** (two bytes, committed as a placeholder).
-Add a real licence — MIT or CC-BY-4.0 are the usual choices for a front-end entry — before publishing
-the repository, or delete the file if no rights are being granted.
+One thing to read before reusing this: MIT covers **this repository's source**, and nothing else. The
+dependencies keep their own terms, and they are not uniform —
+
+| Dependency | Licence |
+| --- | --- |
+| GSAP + ScrollTrigger | GreenSock **"no charge" Standard License** — free to use, including commercially, but it is *not* an open-source licence and restricts redistribution |
+| lucide-react | ISC |
+| React, Tailwind CSS, Vite, PostCSS, Autoprefixer | MIT |
+
+So a fork that ships GSAP as-is inherits GreenSock's terms for that part. Replace it (or write the
+scroll layer by hand) if you need a pure-MIT redistribution. Fonts are the operating system's own and
+carry no licence obligation here.
+
+All geometry, artwork, gradients and copy were generated for this project and live in the repository.
+Nothing is hotlinked at runtime.
