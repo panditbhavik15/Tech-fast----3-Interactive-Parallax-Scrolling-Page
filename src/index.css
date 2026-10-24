@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --void: #04060f;
+    --cyan: #35e0ff;
+    --violet: #9b7bff;
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--void);
+    color: #93a1bd;
+    font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif;
+    /* clip (not hidden) keeps native scrolling, sticky and GSAP pinning intact */
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: rgba(53, 224, 255, 0.28);
+    color: #fff;
+  }
+
+  section {
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+@layer components {
+  /* ---- fluid type ---------------------------------------------- */
+  .type-display {
+    font-size: clamp(2.6rem, 1.4rem + 5.4vw, 6.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+  }
+
+  .type-section {
+    font-size: clamp(2rem, 1.15rem + 3.1vw, 4.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+
+  .type-lead {
+    font-size: clamp(1.02rem, 0.95rem + 0.45vw, 1.3rem);
+    line-height: 1.65;
+  }
+
+  .type-body {
+    font-size: clamp(0.95rem, 0.92rem + 0.2vw, 1.03rem);
+    line-height: 1.75;
+  }
+
+  .kicker {
+    @apply text-[0.6875rem] font-medium uppercase tracking-ultra;
+  }
+
+  /* vh first, then svh where supported — keeps full-height scenes sane in mobile browsers */
+  .scene-full {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .scene-tall {
+    min-height: 105vh;
+    min-height: 105svh;
+  }
+
+  .shell {
+    /* lg:pr-40 reserves the right gutter that the fixed journey rail lives in */
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-12 lg:pr-40;
+  }
+
+  /* ---- header --------------------------------------------------- */
+  /* Nav.jsx toggles .site-header--solid once the scroll leaves the top of the hero. */
+  .site-header {
+    @apply bg-transparent transition-[background-color,backdrop-filter] duration-500;
+  }
+
+  .site-header--solid {
+    @apply bg-void/80 backdrop-blur-md;
+  }
+
+  /* ---- buttons -------------------------------------------------- */
+  .btn-journey {
+    @apply inline-flex min-h-[48px] items-center gap-3 rounded-full border px-6 py-3
+      text-[0.8125rem] font-medium uppercase tracking-[0.18em] transition-colors duration-300;
+  }
+
+  .btn-journey--solid {
+    @apply border-cyan/70 bg-cyan/10 text-white hover:bg-cyan/20;
+  }
+
+  .btn-journey--ghost {
+    @apply border-white/25 text-ink hover:border-white/55 hover:text-white;
+  }
+}
+
+@layer utilities {
+  .will-soft {
+    will-change: transform;
+  }
+}
+
+/* ---- non-scroll ambient motion (small, deliberate set) --------- */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes cue-drop {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(26px);
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.twinkle {
+  animation: twinkle 5.5s ease-in-out infinite;
+}
+
+.cue-dot {
+  animation: cue-drop 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.breathe {
+  animation: breathe 9s ease-in-out infinite;
+}
+
+/* Two meteors, deep space only. Long idle time, so they read as luck, not decoration. */
+@keyframes shoot {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(16deg);
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.9;
+  }
+  14% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(-620px, 210px, 0) rotate(16deg);
+    opacity: 0;
+  }
+}
+
+.meteor {
+  position: absolute;
+  height: 1px;
+  width: 150px;
+  background: linear-gradient(90deg, rgba(233, 244, 255, 0.95), rgba(53, 224, 255, 0.35), transparent);
+  opacity: 0;
+  animation: shoot 17s linear infinite;
+}
+
+/* Cursor probe ring over anything clickable */
+.probe-target {
+  transform: scale(1.5);
+  border-color: rgba(53, 224, 255, 0.9);
+  background-color: rgba(53, 224, 255, 0.12);
+}
+
+/* ---- the still version -----------------------------------------------------
+   src/lib/motionStore.js resolves the decision and writes <html data-motion="on | still">:
+   the operating system, or the visitor's choice through the Motion switch, decides it.
+   Everything below renders the still page — content complete, nothing looping. Scroll-driven
+   parallax is skipped in JS by the same store. The second block covers the case where the
+   bundle never boots (JS off, or a failed module) and the OS still asks for calm. */
+html[data-motion='still'] {
+  scroll-behavior: auto;
+}
+
+html[data-motion='still'] .twinkle,
+html[data-motion='still'] .cue-dot,
+html[data-motion='still'] .breathe,
+html[data-motion='still'] .meteor {
+  animation: none !important;
+}
+
+html[data-motion='still'] *,
+html[data-motion='still'] *::before,
+html[data-motion='still'] *::after {
+  transition-duration: 0.01ms !important;
+}
+
+/* The orbit ring is drawn from strokeDashoffset 1684 by the scroll timeline. With no
+   timeline running it would stay unwound, so the still version rests with it drawn. */
+html[data-motion='still'] [data-orbit-progress] {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion='on']) {
+    scroll-behavior: auto;
+  }
+
+  html:not([data-motion='on']) .twinkle,
+  html:not([data-motion='on']) .cue-dot,
+  html:not([data-motion='on']) .breathe,
+  html:not([data-motion='on']) .meteor {
+    animation: none !important;
+  }
+
+  html:not([data-motion='on']) *,
+  html:not([data-motion='on']) *::before,
+  html:not([data-motion='on']) *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  html:not([data-motion='on']) [data-orbit-progress] {
+    stroke-dashoffset: 0;
+  }
+}

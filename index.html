@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#04060f" />
+    <meta
+      name="description"
+      content="ORBIT — A Journey Beyond Earth. A cinematic parallax scroll from the atmosphere into deep space."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>ORBIT — A Journey Beyond Earth</title>
+    <script>
+      // Resolved motion state before the first paint; src/lib/motionStore.js owns it from then on.
+      document.documentElement.dataset.motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'still'
+        : 'on'
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
