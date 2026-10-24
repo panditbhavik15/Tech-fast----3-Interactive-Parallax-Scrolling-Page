@@ -9,7 +9,7 @@ export default {
         ink: {
           DEFAULT: '#c3cde0',
           soft: '#93a1bd',
-          faint: '#61708c',
+          faint: '#74869f',
         },
         cyan: '#35e0ff',
         violet: '#9b7bff',
